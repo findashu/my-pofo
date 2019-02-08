@@ -1,0 +1,17 @@
+{
+  "name": "my-pofo",
+  "version": "1.0.0",
+  "description": "Portfolio app",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "express-validator": "^5.3.1",
+    "hbs": "^4.0.1"
+  }
+}
