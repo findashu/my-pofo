@@ -5,7 +5,8 @@ const validator = require('express-validator');
 
 const app = express();
 const appMiddleware = require('./middlewares/appMiddleware');
-const routes = require('./routes/index');
+const index = require('./routes/index');
+const projects = require('./routes/projects');
 
 app.set('views',__dirname+'/views');
 app.set('view engine', 'hbs');
@@ -24,24 +25,27 @@ app.use(express.static(__dirname+'/static'))
 
 app.use(appMiddleware.logger);
 
-app.get('/', routes.index);
-
-app.get('/contact', routes.contact);
-
-app.get('/blogs', routes.blogList);
-
-app.get('/projects', routes.projectList);
-app.get('/project/:projectAlias', routes.projectDetail);
-
-app.get('/login', routes.login);
-app.post('/login', routes.doLogin);
-
-app.get('/signup', routes.signup);
-app.post('/signup', routes.doSignup);
+app.use('/', index);
+app.use('/projects', projects);
 
 
-app.get('/dashboard', routes.dashboard);
-app.get('/admin/projects', routes.adminProjectList)
+// app.get('/contact', routes.contact);
+
+// app.get('/blogs', routes.blogList);
+
+// app.get('/projects', routes.projectList);
+// app.get('/project/:projectAlias', routes.projectDetail);
+
+// app.get('/login', routes.login);
+// app.post('/login', routes.doLogin);
+
+// app.get('/signup', routes.signup);
+// app.post('/signup', routes.doSignup);
+
+
+// app.get('/dashboard', routes.dashboard);
+// app.get('/admin/projects', routes.adminProjectList);
+// app.get('/admin/projects/:alias', routes.adminProjectDetail);
 
 app.use(appMiddleware.notFoundError);
 app.use(appMiddleware.handleError);
