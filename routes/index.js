@@ -25,10 +25,15 @@ router.get('/login', (req,res) => {
     })
 });
 
+const user = {
+    email:"test@test.com",
+    password:'test'
+}
+
 router.post('/login', (req,res) => {
     req.checkBody('email', 'Email is required').isEmail().withMessage('Invalid Email');
 
-    req.checkBody('password','Password is required').notEmpty().withMessage('Password is required').isLength({min:5}).withMessage('Length should be min 5')
+    req.checkBody('password','Password is required').notEmpty().withMessage('Password is required').isLength({min:3}).withMessage('Length should be min 5')
     
     var errors = req.validationErrors();
 
@@ -41,7 +46,23 @@ router.post('/login', (req,res) => {
             messages: msgs
         });
     }else {
-        res.redirect('/dashboard')
+        let data = req.body;
+
+        if(data.email == user.email && data.password == user.password) {
+           
+
+            res.setHeader('Set-Cookie', "isLoggedIn= true;Max-Age=10; HttpOnly")
+            res.redirect('/admin/dashboard')
+
+        }else {
+            res.render('login', {
+                title:'Login',
+                layout:'layout-signin',
+                extraCss:'<link rel="stylesheet" href="/css/signin.css">',
+                messages: ['Email or Password Wrong']
+            });
+        }
+
     }
 })
 
@@ -76,12 +97,6 @@ module.exports = router;
 //     })
 // // }
 
-// module.exports.dashboard = (req,res) => {
-//     res.render('admin/dashboard', {
-//         title:'DashBoard',
-//         layout:'layout-admin'
-//     })
-// }
 
 // module.exports.adminProjectList = (req,res) => {
 

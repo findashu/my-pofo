@@ -7,6 +7,8 @@ const app = express();
 const appMiddleware = require('./middlewares/appMiddleware');
 const index = require('./routes/index');
 const projects = require('./routes/projects');
+const admin = require('./routes/admin');
+
 
 app.set('views',__dirname+'/views');
 app.set('view engine', 'hbs');
@@ -27,7 +29,7 @@ app.use(appMiddleware.logger);
 
 app.use('/', index);
 app.use('/projects', projects);
-
+app.use('/admin', admin)
 
 // app.get('/contact', routes.contact);
 
