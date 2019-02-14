@@ -5,6 +5,8 @@ let data = require('../my-data.json');
 
 router.get('/', (req, res, next) => {
     let projects = data.myProjects;
+
+    
     res.render('projects', {
         layout: 'layout',
         title: 'Album Page',

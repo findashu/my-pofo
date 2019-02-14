@@ -3,6 +3,7 @@ let express = require('express');
 let router = express.Router();
 
 router.get('/', (req,res,next) => {
+    
     res.render('index', {
         layout:'layout',
         title:'Album Page',
@@ -11,6 +12,7 @@ router.get('/', (req,res,next) => {
 })
 
 router.get('/contact', (req,res) => {
+
     res.render('contact', {
         title:'Contact Us',
         layout:'layout'
@@ -25,10 +27,19 @@ router.get('/login', (req,res) => {
     })
 });
 
-const user = {
-    email:"test@test.com",
-    password:'test'
-}
+let users = [
+    {
+        name:'Ashu',
+        email:"test@test.com",
+        password:'test'
+    },
+
+    {
+        name:'JS',
+        email:"js@js.com",
+        password:'javascript'
+    }
+]
 
 router.post('/login', (req,res) => {
     req.checkBody('email', 'Email is required').isEmail().withMessage('Invalid Email');
@@ -47,12 +58,12 @@ router.post('/login', (req,res) => {
         });
     }else {
         let data = req.body;
-
-        if(data.email == user.email && data.password == user.password) {
-           
-
-            res.setHeader('Set-Cookie', "isLoggedIn= true;Max-Age=10; HttpOnly")
-            res.redirect('/admin/dashboard')
+        let foundUser = users.filter(user => data.email == user.email && data.password == user.password)
+        if(foundUser.length > 0) {
+        
+        req.session.isLoggedIn = true;
+        req.session.user = foundUser[0];
+        res.redirect('/admin/dashboard')
 
         }else {
             res.render('login', {
@@ -65,6 +76,12 @@ router.post('/login', (req,res) => {
 
     }
 })
+
+router.get('/logout', (req,res) => {
+    req.session.isLoggedIn = false;
+    res.redirect('/')
+})
+
 
 router.get('/signup', (req,res) => {
     res.render('signup', {

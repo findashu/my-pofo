@@ -2,6 +2,8 @@ const express = require('express');
 const hbs = require('hbs');
 const bodyParser = require('body-parser');
 const validator = require('express-validator');
+const session = require('express-session');
+
 
 const app = express();
 const appMiddleware = require('./middlewares/appMiddleware');
@@ -20,6 +22,14 @@ hbs.registerHelper("inc", function(value, options) {
 })
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
+
+app.use(session({
+    secret:'my secret',
+    resave:false,
+    saveUninitialized:false,
+    cookie:{maxAge:1000000}
+}))
+
 app.use(validator());
 
 
@@ -27,9 +37,11 @@ app.use(express.static(__dirname+'/static'))
 
 app.use(appMiddleware.logger);
 
+app.use(appMiddleware.authenticated);
+
 app.use('/', index);
 app.use('/projects', projects);
-app.use('/admin', admin)
+app.use('/admin', appMiddleware.authenticate, admin)
 
 // app.get('/contact', routes.contact);
 

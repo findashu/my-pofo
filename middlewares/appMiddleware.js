@@ -18,3 +18,25 @@ module.exports.handleError = function(err,req,res,next) {
         layout: 'layout'
     })
 }
+
+module.exports.authenticate = function(req,res,next){
+    let loggedIn = req.session.isLoggedIn;
+   
+    if(loggedIn) {
+        next()
+    }else {
+        res.redirect('/login')
+    }
+}
+
+
+module.exports.authenticated = function(req,res,next) {
+    req.session.isLoggedIn = req.session.isLoggedIn ? true : false;
+    if(req.session.isLoggedIn) {
+        res.locals.user = req.session.user;
+        next();
+    }else {
+        next();
+    }
+    
+}
