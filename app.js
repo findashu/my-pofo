@@ -3,6 +3,7 @@ const hbs = require('hbs');
 const bodyParser = require('body-parser');
 const validator = require('express-validator');
 const session = require('express-session');
+const mongoose = require('mongoose');
 
 
 const app = express();
@@ -15,6 +16,15 @@ const admin = require('./routes/admin');
 app.set('views',__dirname+'/views');
 app.set('view engine', 'hbs');
 app.set('view options', { layout: 'layout' });
+
+mongoose.connect('mongodb://localhost:27017/mean', { useNewUrlParser: true }, function(err,data) {
+    if(err) {
+        console.log(err)
+    }else {
+        console.log('DB Connection Successfull')
+    }
+})
+
 
 hbs.registerPartials(__dirname+'/views/partials');
 hbs.registerHelper("inc", function(value, options) {
