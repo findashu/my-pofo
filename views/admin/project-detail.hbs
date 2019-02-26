@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <form action="" method="post">
+    <form action="/admin/projects/{{project.alias}}/update" method="post">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -30,13 +30,13 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="name">GithubUrl</label>
-                    <input type="text" class="form-control" value="{{project.githubUrl}}">
+                    <input type="text" name="githubUrl" class="form-control" value="{{project.githubUrl}}">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="name">Tag</label>
-                    <input type="text" class="form-control" value="{{#each project.tags}}{{this.name}},{{/each}}">
+                    <input type="text" name="tags" class="form-control" value="{{#each project.tags}}{{this.name}},{{/each}}">
                 </div>
             </div>
             <div class="col-md-6">
