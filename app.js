@@ -11,7 +11,7 @@ const appMiddleware = require('./middlewares/appMiddleware');
 const index = require('./routes/index');
 const projects = require('./routes/projects');
 const admin = require('./routes/admin');
-
+const blogs = require('./routes/blogs')
 
 app.set('views',__dirname+'/views');
 app.set('view engine', 'hbs');
@@ -52,7 +52,7 @@ app.use(appMiddleware.authenticated);
 app.use('/', index);
 app.use('/projects', projects);
 app.use('/admin', appMiddleware.authenticate, admin)
-
+app.use('/blogs', blogs)
 // app.get('/contact', routes.contact);
 
 // app.get('/blogs', routes.blogList);

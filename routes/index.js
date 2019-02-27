@@ -3,11 +3,9 @@ let express = require('express');
 let router = express.Router();
 
 router.get('/', (req,res,next) => {
-    
     res.render('index', {
-        layout:'layout',
-        title:'Album Page',
-        navHome: true
+        layout:'layout-index',
+        title:'Portfolio - Ashutosh Mishra'
     })
 })
 
@@ -98,43 +96,3 @@ router.post('/signup',(req,res) => {
 })
 
 module.exports = router;
-
-
-// module.exports.blogList = (req,res) => {
-
-//     let query = req.query.category
-//     let random = Math.floor(Math.random() * data.myBlog.length);
-
-//     res.render('blogs', {
-//         title: 'Blog',
-//         layout: 'layout',
-//         blogs: data.myBlog,
-//         blogCategories: data.blogCategories,
-//         featuredBlog : data.myBlog[random]
-//     })
-// // }
-
-
-// module.exports.adminProjectList = (req,res) => {
-
-//     res.render('admin/project-list', {
-//         title:'Project List',
-//         layout:'layout-admin',
-//         projects : data.myProjects
-//     })
-// }
-
-// module.exports.adminProjectDetail = (req,res) => {
-
-//     let alias = req.params.alias;
-
-//     let index = data.projectIndex[alias];
-//     let project = data.myProjects[index];
-
-
-//     res.render('admin/project-detail', {
-//         title:'Project List',
-//         layout:'layout-admin',
-//         project: project
-//     })
-// }

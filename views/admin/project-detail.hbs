@@ -49,11 +49,11 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="name">Image</label>
-                    {{#if project.image}}
-                        <img src="{{project.image}}" alt="">
+                    {{#if project.imageUrl}}
+                        <img src="{{project.imageUrl}}" height="100" width="100" alt="">
                     {{else}}
 
-                    <input type="file" class="form-control" value=""></input>
+                    <a href="/admin/projects/{{project.alias}}/image-upload">Upload Image</a>
                     {{/if}}
                 </div>
             </div>
