@@ -5,8 +5,8 @@ const multer = require('multer');
 const path = require('path');
 const mediaService = require('../service/uploadMediaService');
 const projectService = require('../service/projectService')
-
-
+const fs = require('fs');
+const unzip = require('unzip');
 
 
 let storage = multer.diskStorage({
@@ -100,6 +100,7 @@ router.get('/projects/:alias/delete', (req,res) => {
 router.post('/projects/:alias/update', (req,res) => {
     let bodyData = req.body;
 
+    bodyData.updatedOn = Date.now();
     console.log(bodyData)
     let alias = req.params.alias;
 
@@ -157,22 +158,19 @@ router.post('/projects/:alias/upload-demo', (req,res) => {
 
             console.log(err);
         } else {
+
+            let zipfile = dir + '/' + alias + '.zip';
+
+
+
+            fs.createReadStream(zipfile).pipe(unzip.Extract({path: dir}));
+            fs.unlinkSync(zipfile);
+
             console.log('Uploaded')
             res.redirect('/admin/projects')
         }
     }
-
     mediaService.uploadMedia(req,res, dir,filename, uploaded)
-
 })
-
-
-
-
-
-
-
-
-
 
 module.exports = router;
