@@ -58,15 +58,17 @@ router.get('/projects/create', (req, res) => {
 router.post('/projects/create', (req, res, next) => {
     let data = req.body;
 
-    let alias = data.name.toLowerCase().trim().split(' ').join('-')
-    console.log(alias)
-    data.alias = alias;
+    function projectCreate(err,data) {
+        if(err) {
+            next(err)
+        }else {
+            res.redirect('/admin/projects')
+        }
+    }
 
-    let newProject = new Project(data);
-    
-    newProject.save().then(projectSaved => {
-        res.redirect('/admin/projects')
-    }).catch(err => next(err))
+    projectService.createProject(data, projectCreate)
+
+
 })
 
 router.get('/projects/:alias', (req, res) => {

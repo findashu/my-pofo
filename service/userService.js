@@ -1,27 +1,29 @@
-const User = require('../models/userSchema')
+const Client = require('node-rest-client').Client
+const client = new Client();
 
+// module.exports.create = (userObj, cb) => {
 
-module.exports.create = (userObj, cb) => {
+//     let newUser = new User(userObj);
 
-    let newUser = new User(userObj);
-
-    newUser.save().then(data => {
-        cb(null,data)
-    }).catch(err => cb(err, null))
-} 
+//     newUser.save().then(data => {
+//         cb(null,data)
+//     }).catch(err => cb(err, null))
+// } 
 
 module.exports.login = (loginObj, cb) => {
 
-    User.findOne({email:loginObj.email}).then(data => {
+    let apiUrl = 'http://localhost:3002/login'
 
-        if(data) {
-            if(data.password === loginObj.password) {
-                cb(null, data)
-            }else {
-                cb('Password is wrong', null)
-            }
+    let args = {
+        headers: { "Content-Type": "application/json"},
+        data : loginObj
+    }
+
+    client.post(apiUrl, args, function(data,resp) {
+        if(resp.statusCode == 200) {
+            cb(null, data.data)
         }else {
-            cb('User not found with email', null)
+            cb(data, null)
         }
-    }).catch(err => next(err));
+    })    
 }
